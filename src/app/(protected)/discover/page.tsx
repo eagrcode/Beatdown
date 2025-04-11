@@ -6,6 +6,8 @@ import getWorkoutById from "@/src/lib/services/workout/getWorkoutById";
 import getWorkouts from "@/src/lib/services/workout/getWorkouts";
 import WorkoutTimer from "@/src/components/timers/WorkoutTimer/WorkoutTimer";
 import Workout from "@/src/components/shared/Workout/Workout";
+import { redirect } from "next/dist/server/api-utils";
+import { notFound } from "next/navigation";
 
 const DEFAULT_SELECTED_INDEX: number = 0;
 
@@ -45,11 +47,15 @@ export default async function DiscoverPage({
     query ? query : workouts[DEFAULT_SELECTED_INDEX]?.workout_id
   );
 
+  if (!workoutById) {
+    return notFound();
+  }
+
   return (
     <div className={styles.pageWrapper}>
       {timerMode === "active" ? (
         <div className={styles.timerWrapper}>
-          <WorkoutTimer selectedWorkoutID={workoutById.workout_id} />
+          <WorkoutTimer selectedWorkoutID={workoutById?.workout_id as string} />
         </div>
       ) : (
         <div className={styles.discoverWrapper}>

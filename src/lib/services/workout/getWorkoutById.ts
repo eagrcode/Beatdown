@@ -7,7 +7,7 @@ const getWorkoutById = async (
   id: string,
   URL: string,
   workoutID: string
-): Promise<Workout> => {
+): Promise<Workout | null> => {
   try {
     const headers = await setApiHeaders();
 
@@ -24,7 +24,7 @@ const getWorkoutById = async (
     const data = await res.json();
 
     if (!data) {
-      return {} as Workout;
+      return null;
     }
 
     console.log("WORKOUT BY ID DATA: ", data[0]);

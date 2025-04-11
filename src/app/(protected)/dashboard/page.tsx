@@ -12,6 +12,7 @@ import { getUser } from "@/src/lib/services/user/getUser";
 import { getTotalCompletedTime } from "@/src/lib/services/dashboard/getTotalCompletedTime";
 import { getTotalCompletedRounds } from "@/src/lib/services/dashboard/getTotalCompletedRounds";
 import { getAverageWorkoutLength } from "@/src/lib/services/dashboard/getAverageWorkoutLength";
+import { notFound } from "next/navigation";
 
 const FILTER_6_MONTHS: string = "_6_months";
 const FILTER_1_MONTH: string = "_1_month";
@@ -134,6 +135,12 @@ export default async function Index({
   ];
 
   const activeTileParam = tiles.find((tile) => tile.isActive)?.baseParam || "";
+
+  const validQueries = tiles.map((tile) => tile.queryParam);
+
+  if (query && !validQueries.includes(query)) {
+    notFound();
+  }
 
   return (
     <div className={styles.pageWrapperUser}>
