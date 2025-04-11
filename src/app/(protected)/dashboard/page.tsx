@@ -31,13 +31,7 @@ const BASE_PARAM_COMPLETED_TIME: string = "get_completed_time";
 const BASE_PARAM_COMPLETED_ROUNDS: string = "get_completed_rounds";
 const BASE_PARAM_AVERAGE_WORKOUT: string = "get_average_workout";
 
-export default async function Index({
-  searchParams,
-}: {
-  searchParams?: {
-    query?: string;
-  };
-}) {
+export default async function Index({ searchParams }: any) {
   const user = await getUser();
   const params = await searchParams;
   const query = params?.query || "";

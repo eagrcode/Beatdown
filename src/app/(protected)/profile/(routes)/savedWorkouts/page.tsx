@@ -7,17 +7,11 @@ import WorkoutTimer from "@/src/components/timers/WorkoutTimer/WorkoutTimer";
 import Workout from "@/src/components/shared/Workout/Workout";
 import getUserSavedWorkouts from "@/src/lib/services/profile/getUserSavedWorkouts";
 import NoWorkouts from "@/src/components/profile/NoWorkouts/NoWorkouts";
+import { notFound } from "next/navigation";
 
 const DEFAULT_SELECTED_INDEX: number = 0;
 
-export default async function ProfileSavedWorkoutsPage({
-  searchParams,
-}: {
-  searchParams?: {
-    query?: string;
-    timer_mode?: string;
-  };
-}) {
+export default async function ProfileSavedWorkoutsPage({ searchParams }: any) {
   const user = await getUser();
   const query = searchParams?.query || "";
   const timerMode = searchParams?.timer_mode || "";
@@ -45,6 +39,10 @@ export default async function ProfileSavedWorkoutsPage({
     apiRoutes.getWorkoutByID,
     query ? query : workouts[DEFAULT_SELECTED_INDEX]?.workout_id
   );
+
+  if (!workoutById) {
+    return notFound();
+  }
 
   return (
     <div className={styles.pageWrapper}>

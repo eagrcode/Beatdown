@@ -11,14 +11,7 @@ import { notFound } from "next/navigation";
 
 const DEFAULT_SELECTED_INDEX: number = 0;
 
-export default async function DiscoverPage({
-  searchParams,
-}: {
-  searchParams?: {
-    query?: string;
-    timer_mode?: string;
-  };
-}) {
+export default async function DiscoverPage({ searchParams }: any) {
   const user = await getUser();
   const query = searchParams?.query || "";
   const timerMode = searchParams?.timer_mode || "";

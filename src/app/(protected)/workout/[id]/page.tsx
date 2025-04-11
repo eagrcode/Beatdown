@@ -6,6 +6,7 @@ import PostSkeleton from "@/src/components/shared/PostSkeleton/PostSkeleton";
 import { apiRoutes } from "@/src/lib/dbAPI/apiRoutes";
 import Workout from "@/src/components/shared/Workout/Workout";
 import WorkoutTimer from "@/src/components/timers/WorkoutTimer/WorkoutTimer";
+import { notFound } from "next/navigation";
 
 type PropTypes = {
   params: {
@@ -16,11 +17,19 @@ type PropTypes = {
   };
 };
 
-export default async function WorkoutPage({ params, searchParams }: PropTypes) {
+export default async function WorkoutPage({ params, searchParams }: any) {
   const { id: userID } = await getUser();
   const timerMode = searchParams?.timer_mode || "";
 
-  const workoutById = await getWorkoutById(userID, apiRoutes.getWorkoutByID, params.id);
+  const workoutById = await getWorkoutById(
+    userID,
+    apiRoutes.getWorkoutByID,
+    params.id
+  );
+
+  if (!workoutById) {
+    return notFound();
+  }
 
   return (
     <div className={styles.wrapper}>
